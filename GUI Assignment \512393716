@@ -1,0 +1,63 @@
+import  tkinter
+from tkinter import *
+from tkinter import messagebox
+def calculate_loan():
+    try:
+        job = e.get()
+        loan_amount = float(e1.get())
+        years = int(e2.get())
+
+        if years == 1:
+            interest_rate = 13.76
+        elif years == 3:
+            interest_rate = 14.06
+        elif years == 5:
+            interest_rate = 14.87
+        elif years == 7:
+            interest_rate = 15.71
+        else:
+            raise ValueError("Invalid number of years")
+
+        total_interests = loan_amount * interest_rate / 100 * years
+        total_loan = loan_amount + total_interests
+        monthly_payment = total_loan / (years * 12)
+        output_1_l.config(text=f"Total loan: {total_loan:.2f}")
+        output_2_l.config(text=f"Total interest: {total_interests:.2f}")
+        output_3_l.config(text=f"Monthly Payment: {monthly_payment:.2f}")
+    except ValueError:
+        messagebox.showerror("Error", "Invalid input. Please enter valid values.")
+
+def clear():
+    e.delete(0, tkinter.END)
+    e1.delete(0, tkinter.END)
+    e2.delete(0,tkinter.END)
+
+def exit():
+    top.destroy()
+
+
+top=Tk()
+top.title("Bank App")
+top.geometry("500x700")
+logo=PhotoImage(file="Bank misr.png")
+photo=Label(top,image=logo).pack()
+l=(Label(top,text="entre your job",font=("sabon",15),bg="pink")).pack()
+
+e=Entry(top)
+e.pack()
+l1=Label(top,text="entre your loan Amount",font=("Sabon",15),bg="pink").pack()
+e1=Entry(top)
+e1.pack()
+l2=Label(top,text="entre your loan year",font=("sabon",15),bg="pink").pack()
+e2=Entry(top)
+e2.pack()
+b=Button(top,text="calculate",bg="purple",bd=5,fg="white",font=("sabon",15),command=calculate_loan).pack()
+b2=Button(top,text="clear",bg="purple",bd=5,fg="white",font=("sabon",15),command=clear).pack()
+b3=Button(top,text="Exite",bg="red",bd=5,fg="white",font=("sabon",15),command=exit).pack()
+output_1_l=Label(top,bg="blue",fg="white",font=("sabon ",14,"bold"))
+output_1_l.pack()
+output_2_l=Label(top,bg="blue",fg="white",font=("sabon ",14,"bold"))
+output_2_l.pack()
+output_3_l=Label (top,bg="blue",fg="white",font=("sabon ",14,"bold"))
+output_3_l.pack()
+top.mainloop()
