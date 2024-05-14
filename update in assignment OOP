@@ -1,0 +1,133 @@
+class Product:
+    SUPERMARKET_NAME = "SuperMart"
+
+    def __init__(self, product_id, name, price, manufacturer, weight, expiration_date, year):
+        self.__product_id = product_id
+        self.n = name
+        self.p = price
+        self.m= manufacturer
+        self.w= weight
+        self.ex_date = expiration_date
+        self.y = year
+
+    def display_product_details(self):
+        print(f"Product ID: {self.__product_id}")
+        print(f"Name: {self.n}")
+        print(f"Price: {self.p}")
+        print(f"Manufacturer: {self.m}")
+        print(f"Weight: {self.w}")
+        print(f"Expiration Date: {self.ex_date}")
+        print(f"Year: {self.y}")
+
+    def set_product_id(self, new_id):
+        self.__product_id = new_id
+
+
+class Healthy(Product):
+    def __init__(self, product_id, name, price, manufacturer, weight, expiration_date, year, calories=0, components=None):
+        super().__init__(product_id, name, price, manufacturer, weight, expiration_date, year)
+        self.calories = calories
+        self.components = components if components else []
+
+    def display_product_details(self):
+        super().display_product_details()
+        print(f"Calories: {self.calories}")
+        print(f"Components: {', '.join(self.components)}")
+
+    def set_calories(self, new_calories):
+        self.calories = new_calories
+
+    def compute_total_calories(self):
+        return self.calories * self.w
+
+
+def main():
+    while True:
+        system_choice = input("Choose the system (Product or Healthy): ").strip().lower()
+        if system_choice == "product":
+            product_system()
+        elif system_choice == "healthy":
+            healthy_system()
+        else:
+            print("Invalid choice. Exiting.")
+            break
+
+
+def product_system():
+    product = None
+    while True:
+        print("\nProduct Sub-System")
+        print("1. Add new Product")
+        print("2. Display Product Details")
+        print("3. Change/Edit product_ID")
+        print("4. Exit the sub-system")
+        print("5. Exit the Supermarket cashier system")
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            product = create_product()
+        elif choice == "2" and product:
+            product.display_product_details()
+        elif choice == "3" and product:
+            new_id = input("Enter new product ID: ").strip()
+            product.set_product_id(new_id)
+        elif choice == "4":
+            return
+        elif choice == "5":
+            exit()
+        else:
+            print("Invalid choice or no product defined.")
+
+
+def healthy_system():
+    healthy_product = None
+    while True:
+        print("\nHealthy Sub-System")
+        print("1. Add new Healthy Product")
+        print("2. Display Healthy Product Details")
+        print("3. Change/Edit calories")
+        print("4. Check calories and components of Healthy Product")
+        print("5. Compute total calories of the Healthy Product")
+        print("6. Exit the sub-system")
+        print("7. Exit the Supermarket cashier system")
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            healthy_product = create_healthy_product()
+        elif choice == "2" and healthy_product:
+            healthy_product.display_product_details()
+        elif choice == "3" and healthy_product:
+            new_calories = int(input("Enter new calories: ").strip())
+            healthy_product.set_calories(new_calories)
+        elif choice == "4" and healthy_product:
+            healthy_product.display_product_details()
+        elif choice == "5" and healthy_product:
+            print(f"Total calories: {healthy_product.compute_total_calories()}")
+        elif choice == "6":
+            return
+        elif choice == "7":
+            exit()
+        else:
+            print("Invalid choice or no healthy product defined.")
+
+
+def create_product():
+    product_id = input("Enter product ID: ").strip()
+    name = input("Enter product name: ").strip()
+    price = float(input("Enter product price: ").strip())
+    manufacturer = input("Enter manufacturer: ").strip()
+    weight = float(input("Enter weight: ").strip())
+    expiration_date = input("Enter expiration date (YYYY-MM-DD): ").strip()
+    year = int(input("Enter year: ").strip())
+    return Product(product_id, name, price, manufacturer, weight, expiration_date, year)
+
+
+def create_healthy_product():
+    product = create_product()
+    calories = int(input("Enter calories: ").strip())
+    components = input("Enter components (comma-separated): ").strip().split(',')
+    return Healthy(product._Product__product_id, product.n, product.p, product.m, product.w, product.ex_date, product.y, calories, components)
+
+
+if __name__ == "__main__":
+    main()
